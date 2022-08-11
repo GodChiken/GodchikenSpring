@@ -1,22 +1,46 @@
 package me.master.godchikenspring;
 
-import com.master.godchikenspringbootstarter.model.Godchiken;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.WebApplicationType;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
+import org.apache.catalina.Context;
+import org.apache.catalina.LifecycleException;
+import org.apache.catalina.startup.Tomcat;
 
-@SpringBootApplication
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+
 public class GodchikenSpringApplication {
 
-	public static void main(String[] args) {
-		SpringApplication springApplication = new SpringApplication(GodchikenSpringApplication.class);
-		springApplication.setWebApplicationType(WebApplicationType.NONE);
-		springApplication.run(args);
+	public static void main(String[] args) throws LifecycleException {
+		Tomcat tomcat = new Tomcat();
+		tomcat.setPort(8080);
+
+		Context context = tomcat.addContext("/", "/");
+
+		HttpServlet servlet = new HttpServlet() {
+			@Override
+			protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+				PrintWriter printWriter = resp.getWriter();
+				printWriter.println("HTML Tag Here or Not");
+			}
+		};
+		String servletName = "GodchikenServlet";
+
+		tomcat.addServlet("/", servletName, servlet);
+
+		context.addServletMappingDecoded("/hello", servletName);
+
+		// tomcat 9 before
+		/*tomcat.start();
+		tomcat.getServer().await();*/
+
+		// tomcat 9 after
+		tomcat.getConnector();
+		tomcat.start();
+		tomcat.getServer().await();
 	}
 
-	/*@Bean
-	public Godchiken godchiken(){
-		return Godchiken.builder().name("기무보훈상").howLong(2000).build();
-	}*/
 }
