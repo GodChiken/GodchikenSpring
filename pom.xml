@@ -13,9 +13,11 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>GodchikenSpring</name>
 	<description>GodchikenSpring</description>
+
 	<properties>
 		<java.version>11</java.version>
 	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -25,23 +27,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-tomcat</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-undertow</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.master</groupId>
-			<artifactId>godchiken-spring-boot-starter</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
 	</dependencies>
