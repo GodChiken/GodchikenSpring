@@ -2,6 +2,7 @@ package me.master.godchikenspring;
 
 import org.apache.catalina.connector.Connector;
 
+import org.apache.coyote.http2.Http2Protocol;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
@@ -15,11 +16,12 @@ public class GodchikenSpringApplication {
     public ServletWebServerFactory servletContainer() {
         TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory();
         tomcat.addAdditionalTomcatConnectors(createStandardConnector());
+        tomcat.addConnectorCustomizers(connector -> connector.addUpgradeProtocol(new Http2Protocol()));
         return tomcat;
     }
 
     private Connector createStandardConnector() {
-        Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
+        Connector connector = new Connector("org.apache.coyote.http2.Http2Protocol");
         connector.setPort(8080);
         return connector;
     }
